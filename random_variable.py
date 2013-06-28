@@ -3,7 +3,7 @@ a random variable is a function that distributes
 all values in the universe U to a space of V
 '''
 
-def uniform_distribution(universe, random_variable):
+def distribution(universe, random_variable):
 	results = [random_variable(u) for u in universe]
 	v = {}
 
@@ -16,8 +16,8 @@ def uniform_distribution(universe, random_variable):
 if __name__ == "__main__":
 	universe = [1,2,3,4,5,6]
 	random_variable = lambda x: "even" if x % 2 == 0 else "odd"
-	uniform_distribution(universe, random_variable)
+	distribution(universe, random_variable)
 	print "\n"
-	uniform_distribution(universe, lambda x: x ** 2)
+	distribution(universe, lambda x: x ** 2)
 	print "\n"
-	uniform_distribution(universe, lambda x: x / 2)
+	distribution(universe, lambda x: x / 2)
