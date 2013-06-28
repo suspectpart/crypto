@@ -1,6 +1,13 @@
 ''' 
 a random variable is a function that distributes 
-all values in the universe U to a space of V
+all values in the universe U to a new resultspace of V
+
+e.g. a random variable for the universe [1,2,3,4,5,6]
+might be a function that returns "even" of even values and 
+"odd" for odd values
+
+this function takes any universe and a function to distribute 
+these values on V, printing the probabilities of any event and its result
 '''
 
 def distribution(universe, random_variable):
