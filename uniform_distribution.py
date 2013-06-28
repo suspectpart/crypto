@@ -1,5 +1,6 @@
 ''' 
-Discrete probability means to determine a probability with which certain events are going to happen.
+Part of the discrete probability crash course
+Uniform distribution means to determine a probability with which certain events are going to happen.
 For example when rolling a dice with numbers 1-6 the probability for a number to turn up is P(number) = 1/6.
 The probability for any number in [1,2,3] to turn up would be P(1,2,3) = 0.5
 The probability for a 7 to turn up is P(7) = 0
