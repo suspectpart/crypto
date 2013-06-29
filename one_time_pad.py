@@ -1,3 +1,16 @@
+'''
+Basic example of encryption / decryption
+
+For every message, a randomly generated key is used that has to be exactly
+as long as the message itself (which gives us perfect secrecy as the key space
+is at least the size of the message space.)
+
+A message is encrypted by xor-ing every bit of the message with every bit of the key,
+returning the cipher text string. 
+
+To decrypt the cipher, it just has to be xor-ed with the key again.
+'''
+
 import random
 
 def generate_key(message):
