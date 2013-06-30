@@ -8,14 +8,16 @@ class LFSR(object):
 
 	def cycle(self):
 		result = []
+		output = 0
+
 		for i in range(0,8):
 			feedback_bit = reduce(lambda x,y: x ^ y, self.tap_bits())
 			result.append(self.register.pop())
 			self.register = [feedback_bit] + self.register
-
-		output = 0
+			
 		for index, value in enumerate(result):
 			output = output + value * (2 ** index)
+		
 		return output
 
 	def tap_bits(self):
