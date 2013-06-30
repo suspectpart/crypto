@@ -1,11 +1,11 @@
 '''
 Example of a Stream Cipher
 
-Instead of creating a random key that is as long as the message to be encrypted,
-a stream cipher just takes a small key that is put into a PRG (Pseudo Random Generator)
-to create a non-predictable, infinite stream of bits. 
+Instead of creating a random key that is as long as the message to be encrypted (= OTP),
+a stream cipher just takes a small key (=seed) that is put into a PRG (Pseudo Random Generator)
+to create a non-predictable, infinite stream of key-bits. 
 
-It is deterministic that every key will produce the same stream of bits, 
+It is deterministic that every seed will produce the same stream of bits, 
 but no bit can be predicted by looking at any other bits in the stream.
 
 As the key in most cases will be smaller than the message, in theory a stream cipher

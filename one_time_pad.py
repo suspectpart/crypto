@@ -21,10 +21,11 @@ def generate_key(message):
 	return [random.getrandbits(8) for c in message]
 
 def encrypt(message, key):
-	return [ord(pair[0]) ^ pair[1] for pair in zip(message, key)]
+	cipher = [ord(pair[0]) ^ pair[1] for pair in zip(message, key)]
+	return "".join(map(chr, cipher))
 
 def decrypt(cipher, key):
-	return "".join([chr(pair[0] ^ pair[1]) for pair in zip(cipher, key)])
+	return encrypt(cipher, key)
 	
 
 if __name__ == "__main__":
