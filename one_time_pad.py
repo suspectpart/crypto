@@ -1,5 +1,5 @@
 '''
-Basic example of encryption / decryption
+Basic example of One Time Pad (OTP) encryption / decryption 
 
 For every message, a randomly generated key is used that has to be exactly
 as long as the message itself (which gives us perfect secrecy as the key space
@@ -7,8 +7,12 @@ is at least the size of the message space.)
 
 A message is encrypted by xor-ing every bit of the message with every bit of the key,
 returning the cipher text string. 
-
 To decrypt the cipher, it just has to be xor-ed with the key again.
+
+If the key is truly random and only used once, the OTP is completely unbreakable.
+This is because for any ciphertext, all possible plaintext messages are equally likely.
+So if you have you have a 5 character cipher, any word with 5 letters
+is equally likely to be the original plain text message.
 '''
 
 import random
