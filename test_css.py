@@ -1,7 +1,7 @@
 from nose.tools import *
-from css import LFSR
+from lfsr import LFSR
 
-def test_LFSR():
+def test_cycle():
 	'''
 	First cycle:
 	1,1,0,1,0 -> output 0, feedback 0
