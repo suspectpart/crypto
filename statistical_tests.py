@@ -1,7 +1,7 @@
 import math
 import random
 
-def test_number_ones_and_zeros(x):
+def number_ones_and_zeros(x):
 	difference = math.fabs(x.count(0) - x.count(1))
 	tolerance = math.sqrt(len(x))
 	success =  difference <= tolerance
@@ -12,7 +12,7 @@ def test_number_ones_and_zeros(x):
 	print "-> test ok\n" if success else "-> test failed\n"
 	return success
 
-def test_consecutive_zeros(x):
+def consecutive_zeros(x):
 	consecutive_zeros = 0
 	threshold = 10 * math.sqrt(len(x))
 	for i, v in enumerate(x):
@@ -25,7 +25,7 @@ def test_consecutive_zeros(x):
 	print "-> test ok\n" if success else "-> test failed\n" 
 	return success
 
-def test_longest_zero_run(x):
+def longest_zero_run(x):
 	counter = longest = 0
 	threshold = 10 * math.log(10, 2)
 	for bit in x:
@@ -39,6 +39,6 @@ def test_longest_zero_run(x):
 
 if __name__ == "__main__":
 	random_bits = [random.getrandbits(1) for bit in range(0,1000000)]
-	test_number_ones_and_zeros(random_bits)
-	test_consecutive_zeros(random_bits)
-	test_longest_zero_run(random_bits)
+	number_ones_and_zeros(random_bits)
+	consecutive_zeros(random_bits)
+	longest_zero_run(random_bits)
