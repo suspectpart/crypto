@@ -1,5 +1,5 @@
 from nose.tools import *
-from crypto.MAC import CBC_MAC
+from crypto.MAC import CBC_MAC, pad
 
 def test_cbc_mac():
 	key1 = b'0011223344556677'
@@ -11,3 +11,8 @@ def test_cbc_mac():
 	eq_(cbc_mac.verify_tag(message, cbc_mac.generate_tag(message)), True) 
 	eq_(cbc_mac.verify_tag(message, b"Tag by adversary"), False) 
 	eq_(cbc_mac.verify_tag(b"Message by adversary", cbc_mac.generate_tag(message)), False)
+
+def test_pad():
+	eq_(pad(b'\xFF\xFF\xFF\xFF', 4), b'\xFF\xFF\xFF\xFF\x80\x00\x00\x00')
+	eq_(pad(b'\xFF\xFF\xFF', 4), b'\xFF\xFF\xFF\x80')
+	eq_(pad(b'\xFF\xFF', 4), b'\xFF\xFF\x80\x00')
