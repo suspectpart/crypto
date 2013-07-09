@@ -10,7 +10,7 @@ Those bytes are added together mod 256, the carry is thrown away.
 Doing this for every byte of the input creates a key stream that is used to
 encrypt the whole input message.
 '''
-from lfsr import LFSR
+from crypto.lfsr import LFSR
 import random
 
 def encode(message, key):

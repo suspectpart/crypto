@@ -1,5 +1,5 @@
 from nose.tools import *
-from lfsr import LFSR
+from crypto.lfsr import LFSR
 
 def test_cycle():
 	'''

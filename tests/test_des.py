@@ -1,5 +1,5 @@
 from nose.tools import *
-from DES import *
+from crypto.DES import *
 
 def test_neighbour():
 	assert neighbour(0) == 47
