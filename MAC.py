@@ -10,7 +10,7 @@ class CBC_MAC(object):
 		self.cipher2 = AES.new(key2, AES.MODE_ECB)
 		self.BLOCK_SIZE = self.cipher1.block_size
 
-	def generate_tag(self, message):
+	def sign(self, message):
 		message = pad(message, self.BLOCK_SIZE)	
 		tag = b'\x00' * self.BLOCK_SIZE
 
@@ -19,8 +19,8 @@ class CBC_MAC(object):
 
 		return self.cipher2.encrypt(tag)
 
-	def verify_tag(self, message, tag):
-		return self.generate_tag(message) == tag
+	def verify(self, message, tag):
+		return self.sign(message) == tag
 
 '''
 Secure padding for MAC tags
