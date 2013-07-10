@@ -3,7 +3,8 @@ from Crypto.Cipher import AES
 import random
 
 '''
-Encrypted CBC MAC (using two keys) based on AES.
+Encrypted CBC MAC (using two keys) based on AES. 
+It is crucial to encrypt the resulting tag again using a different key.
 '''
 class CBC_MAC(object):
 	def __init__(self, key1, key2):
@@ -23,6 +24,12 @@ class CBC_MAC(object):
 	def verify(self, message, tag):
 		return self.sign(message) == tag
 
+'''
+CMAC
+CMAC works almost the same way as the ECBC MAC. It needs three keys, the last plaintext block is
+either xor'ed with k1 (if the message was padded) or k2 (if there are only full blocks) before
+encrypting it with k.
+'''
 class CMAC(object):
 	def __init__(self, keys):
 		self.k, self.k1, self.k2 = keys
@@ -40,7 +47,7 @@ class CMAC(object):
 			tag = self.cipher.encrypt(xor(block, tag))
 
 		last_block = message[-self.BLOCK_SIZE:]
-		return AES.new(last_block_key, AES.MODE_ECB).encrypt(xor(last_block, tag))
+		return self.cipher.encrypt(xor(last_block_key, xor(last_block, tag)))
 
 	def verify(self, message, tag):
 		return self.sign(message) == tag
@@ -70,7 +77,7 @@ class One_Time_Mac(object):
 		return p
 
 '''
-Secure padding for MAC tags
+Secure padding for MAC tags.
 '''
 def pad(message, block_size):
 	bytes_to_pad = block_size - (len(message) % block_size) - 1
