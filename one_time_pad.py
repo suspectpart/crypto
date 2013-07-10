@@ -15,14 +15,14 @@ So if you have you have a 5 character cipher, any word with 5 letters
 is equally likely to be the original plain text message.
 '''
 
+from crypto.utils import xor
 import random
 
 def generate_key(message):
-	return [random.getrandbits(8) for c in message]
+	return b"".join([chr(random.getrandbits(8)) for c in message])
 
 def encrypt(message, key):
-	cipher = [ord(pair[0]) ^ pair[1] for pair in zip(message, key)]
-	return "".join(map(chr, cipher))
+	return xor(message, key)
 
 def decrypt(cipher, key):
 	return encrypt(cipher, key)
@@ -33,7 +33,7 @@ if __name__ == "__main__":
 	key = generate_key(message)
 	cipher = encrypt(message, key)
 	deciphered_text = decrypt(cipher, key)
-	print "message: ", message
-	print "key: ", key
-	print "cipher: ", cipher
-	print "decrypted message: ", deciphered_text 
+	print "message:\t", message
+	print "key:\t\t", key.encode("hex")
+	print "cipher:\t\t", cipher.encode("hex")
+	print "decrypted:\t", deciphered_text 
