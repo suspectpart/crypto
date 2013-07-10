@@ -1,7 +1,9 @@
 from crypto.utils import xor, get_blocks
-import crypto.utils
 from Crypto.Cipher import AES
 
+'''
+Generates tags for messages using AES in CBC mode with two keys
+'''
 class CBC_MAC(object):
 	def __init__(self, key1, key2):
 		self.cipher1 = AES.new(key1, AES.MODE_ECB)
@@ -9,7 +11,7 @@ class CBC_MAC(object):
 		self.BLOCK_SIZE = self.cipher1.block_size
 
 	def generate_tag(self, message):
-		message = crypto.utils.pad(message, self.BLOCK_SIZE)	# replace by the secure MAC pad
+		message = pad(message, self.BLOCK_SIZE)	
 		tag = b'\x00' * self.BLOCK_SIZE
 
 		for block in get_blocks(message, self.BLOCK_SIZE):
@@ -20,7 +22,9 @@ class CBC_MAC(object):
 	def verify_tag(self, message, tag):
 		return self.generate_tag(message) == tag
 
+'''
+Secure padding for MAC tags
+'''
 def pad(message, block_size):
-	if len(message) % block_size == 0:
-		message += b'\x80' + (block_size - 1) * '\x00'
-	return message
+	bytes_to_pad = block_size - (len(message) % block_size) - 1
+	return message + b'\x80' + bytes_to_pad * '\x00'
