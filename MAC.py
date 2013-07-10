@@ -3,7 +3,7 @@ from Crypto.Cipher import AES
 import random
 
 '''
-Generates tags for messages using AES in CBC mode with two keys
+Encrypted CBC MAC (using two keys) based on AES.
 '''
 class CBC_MAC(object):
 	def __init__(self, key1, key2):
@@ -24,7 +24,8 @@ class CBC_MAC(object):
 		return self.sign(message) == tag
 
 '''
-Secure for exactly one message, if a and b are random primes from a big int space q
+One Time MAC based on a polynomial with a message and two primes (a, b) from a big int space q. 
+Secure for exactly one message, as sign(key, msg1) doesn't reveal anything about sign(key, msg2)
 '''
 class One_Time_Mac(object):
 	def __init__(self):
