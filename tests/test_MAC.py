@@ -12,8 +12,15 @@ def test_cbc_mac_sign_and_verify():
 	eq_(cbc_mac.verify(message, b"Tag by adversary"), False) 
 	eq_(cbc_mac.verify(b"Message by adversary", cbc_mac.sign(message)), False)
 
+def test_cmac():
+	message = b"Attack at dawn!"
+	keys = (b"Sixteen Byte Key", b"Sixteen Bxxx Key", b"Sixteen Byte Kxx")
+	cmac = CMAC(keys)
+	eq_(cmac.verify(message, cmac.sign(message)), True)
+	eq_(cmac.verify(message, b"Tag By Adversary"), False)
+
 def test_one_time_mac():
-	message = "Attack at dawn!"
+	message = b"Attack at dawn!"
 	one_time_mac = One_Time_Mac()
 	key = one_time_mac.new_key()
 	tag = one_time_mac.sign(message, key)

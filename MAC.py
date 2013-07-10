@@ -23,6 +23,28 @@ class CBC_MAC(object):
 	def verify(self, message, tag):
 		return self.sign(message) == tag
 
+class CMAC(object):
+	def __init__(self, keys):
+		self.k, self.k1, self.k2 = keys
+		self.cipher = AES.new(self.k, AES.MODE_ECB)
+		self.BLOCK_SIZE = self.cipher.block_size
+
+	def sign(self, message):
+		last_block_key = self.k2 if len(message) % self.BLOCK_SIZE == 0 else self.k1
+		if last_block_key == self.k1:
+			message = pad(message, self.BLOCK_SIZE)
+
+		tag = b'\x00' * self.BLOCK_SIZE
+
+		for block in get_blocks(message[:-self.BLOCK_SIZE], self.BLOCK_SIZE):
+			tag = self.cipher.encrypt(xor(block, tag))
+
+		last_block = message[-self.BLOCK_SIZE:]
+		return AES.new(last_block_key, AES.MODE_ECB).encrypt(xor(last_block, tag))
+
+	def verify(self, message, tag):
+		return self.sign(message) == tag
+
 '''
 One Time MAC based on a polynomial with a message and two primes (a, b) from a big int space q. 
 Secure for exactly one message, as sign(key, msg1) doesn't reveal anything about sign(key, msg2)
