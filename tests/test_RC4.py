@@ -1,5 +1,5 @@
 from nose.tools import *
-from RC4 import *
+from crypto.RC4 import *
 
 def test_key_stream_generation():
 	eq_(generate_keystream(b"Key", 10), b"EB9F7781B734CA72A719".decode("hex"))
