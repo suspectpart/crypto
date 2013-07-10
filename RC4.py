@@ -27,6 +27,9 @@ def encrypt(message, key):
 	key_stream = generate_keystream(key, len(message))
 	return b"".join([xor(m,k) for m,k in zip(message, key_stream)])
 
+def decrypt(ciphertext, key):
+	return encrypt(ciphertext, key)
+
 if __name__ == "__main__":
 	message, key = "Attack at dawn!", "Secret Key"
 	print message, " x ", key, " = ", encrypt(message, key).encode("hex")
