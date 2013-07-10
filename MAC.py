@@ -1,6 +1,6 @@
-from crypto.utils import pad, get_blocks, xor
-from Crypto.Cipher import AES
+from crypto.utils import xor, get_blocks
 import crypto.utils
+from Crypto.Cipher import AES
 
 class CBC_MAC(object):
 	def __init__(self, key1, key2):
