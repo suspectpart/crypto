@@ -39,3 +39,17 @@ def test_increment():
 	bytes = b'abc'
 	eq_(increment(b'abc'), b'abd')
 	eq_(increment(b'\xFF'), b'\x01\x00')
+
+def test_equal():
+	tag1 = "\x00\x00\x00\x00\x00\x00"		# original tag
+	tag2 = "\x00\x00\x00\x00\x00\x00"		# tag equal to original tag
+	tag3 = "\x00\x00\x00\x00\x00\x01"		# slightly different
+	tag4 = "\xFF\xFF\xFF\xFF\xFF\xFF"		# completely different
+	tag5 = "\x00"							# too short
+	tag6 = "\x00\x00\x00\x00\x00\x00\x00"	# too long
+
+	assert_equal(tag1, tag2)
+	assert_not_equal(tag1, tag3)
+	assert_not_equal(tag1, tag4)
+	assert_not_equal(tag1, tag5)
+	assert_not_equal(tag1, tag6)

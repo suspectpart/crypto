@@ -1,4 +1,5 @@
 from nose.tools import *
+import key
 from crypto.RC4 import *
 
 def test_key_stream_generation():
@@ -7,6 +8,6 @@ def test_key_stream_generation():
 	eq_(generate_keystream(b"Secret", 8), b"04D46B053CA87B59".decode("hex"))
 
 def test_rc4_encryption():
-	key = "secret key"
+	k = key.with_length(128)
 	message = "Attack at dawn!"
-	eq_(encrypt(encrypt(message,key), key), message)
+	eq_(decrypt(encrypt(message, k), k), message)

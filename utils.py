@@ -21,3 +21,6 @@ def unpad(text):
 
 def xor(block_x, block_y):
 	return b"".join([chr(ord(a) ^ ord(b)) for a, b in zip(block_x, block_y)])
+
+def equal(tag1, tag2):
+	return sum((ord(x) ^ ord(y) for x,y in zip(tag1, tag2))) == 0
