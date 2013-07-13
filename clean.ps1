@@ -1,0 +1,1 @@
+gci -Include *.pyc -Recurse | foreach($_) {remove-item $_.fullname}
