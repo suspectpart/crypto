@@ -1,5 +1,5 @@
 from nose.tools import *
-from crypto.MAC import *
+from crypto.mac.MAC import CBC_MAC, CMAC, One_Time_Mac
 
 def test_cbc_mac_sign_and_verify():
 	key1 = b'0011223344556677'
@@ -25,9 +25,4 @@ def test_one_time_mac():
 	key = one_time_mac.new_key()
 	tag = one_time_mac.sign(message, key)
 	ok_(one_time_mac.verify(message, key, tag))
-	eq_(one_time_mac.sign("\x01\x01", (1,1)), (1 ** 3 + 1 * 1 ** 1 + 1) + 1 % 1000)   
-
-def test_pad():
-	eq_(pad(b'\xFF\xFF\xFF\xFF', 4), b'\xFF\xFF\xFF\xFF\x80\x00\x00\x00')
-	eq_(pad(b'\xFF\xFF\xFF', 4), b'\xFF\xFF\xFF\x80')
-	eq_(pad(b'\xFF\xFF', 4), b'\xFF\xFF\x80\x00')
+	eq_(one_time_mac.sign("\x01\x01", (1,1)), (1 ** 3 + 1 * 1 ** 1 + 1) + 1 % 1000)

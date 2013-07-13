@@ -1,6 +1,12 @@
 from nose.tools import *
 from crypto.utils import *
 
+
+def test_mac_pad():
+	eq_(mac_pad(b'\xFF\xFF\xFF\xFF', 4), b'\xFF\xFF\xFF\xFF\x80\x00\x00\x00')
+	eq_(mac_pad(b'\xFF\xFF\xFF', 4), b'\xFF\xFF\xFF\x80')
+	eq_(mac_pad(b'\xFF\xFF', 4), b'\xFF\xFF\x80\x00')
+
 def test_pad():
 	eq_(pad(b'Attack at dawn', 16), b'Attack at dawn\x02\x02')
 	eq_(pad(b'1234567890', 16), b'1234567890\x06\x06\x06\x06\x06\x06')

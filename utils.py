@@ -24,3 +24,10 @@ def xor(block_x, block_y):
 
 def equal(tag1, tag2):
 	return sum((ord(x) ^ ord(y) for x,y in zip(tag1, tag2))) == 0
+
+'''
+Secure padding for MAC tags.
+'''
+def mac_pad(message, block_size):
+	bytes_to_pad = block_size - (len(message) % block_size) - 1
+	return message + b'\x80' + bytes_to_pad * '\x00'
