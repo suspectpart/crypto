@@ -1,6 +1,6 @@
 from nose.tools import *
-import string
-import math
+from columnar_transposition import encrypt, _pad, _normalize, _distribute_text_to_key_columns, _weighted, _read_ciphertext_from
+import re
 
 def test_should_strip_all_non_letter_characters_from_message():
 	message = b'we are discovered. flee at once.'
@@ -47,7 +47,7 @@ def test_should_pad_message_with_length_not_multiple_of_key():
 	message = b'hallo'
 	padded_message = _pad(message, keyword)
 	assert_equal(len(padded_message), len(keyword))
-	assert_equal(padded_message[0:len(message)], message)
+	assert_not_equal(None, re.match(message + "[a-z]", padded_message))
 
 	message = b'manyzebras'
 	padded_message = _pad(message, keyword)
@@ -57,7 +57,7 @@ def test_should_pad_message_with_length_not_multiple_of_key():
 def test_should_add_message_to_key_columns():
 	message = b'wearediscoveredfleeatonce'
 	
-	key = _distribute_message_to_key_columns(message, [6,3,2,4,1,5])
+	key = _distribute_text_to_key_columns(message, [6,3,2,4,1,5])
 
 	assert_equal(key[0][1], ['w', 'i', 'r', 'e', 'e'])
 	assert_equal(key[1][1], ['e', 's', 'e', 'a'])
@@ -66,45 +66,13 @@ def test_should_add_message_to_key_columns():
 	assert_equal(key[4][1], ['e', 'v', 'l', 'n'])
 	assert_equal(key[5][1], ['d', 'e', 'e', 'c'])
 
-def test_should_create_cipher_text():
-	key_columns = _distribute_message_to_key_columns(b'wearediscoveredfleeatonceqkjeu', [6,3,2,4,1,5])
+def test_should_create_cipher_text_from_key_columns():
+	key_columns = _distribute_text_to_key_columns(b'wearediscoveredfleeatonceqkjeu', [6,3,2,4,1,5])
 	
 	ciphertext = _read_ciphertext_from(key_columns)
 	
 	assert_equal(ciphertext, b"evlne acdtk eseaq rofoj deecu wiree")
 
-def _weighted(keyword):
-	return [sorted(keyword).index(x) + 1 for x in keyword]
-
-def _normalize(message):
-	return b"".join([c for c in message if c in string.lowercase])
-
-def _pad(message, keyword):
-	missing_bytes = len(keyword) - (len(message) % len(keyword))
-	return message if missing_bytes == len(keyword) else message + (b'a' * missing_bytes)
-
-def _distribute_message_to_key_columns(message, key):
-	key = [(x, []) for x in key]
-	for i, c in enumerate(message):
-		key[i % len(key)][1].append(c)
-	return key
-
-def _read_ciphertext_from(key_columns):
-	ciphertext = b""
-	for column in sorted(key_columns):
-		ciphertext += b"".join(column[1]) + b" "
-	return ciphertext.strip()
-
-
-'''
-attack at dawn
-
-ZEBRAS
-632415
-
-WEARED
-ISCOVE
-REDFLE
-EATONC
-EXXXXX
-'''
+def test_should_do_whole_encryption():	
+	ciphertext = encrypt(b"we are discovered. flee at once.", b"zebras")
+	assert None != re.match("evln[a-z] acdt[a-z] esea[a-z] rofo[a-z] deec[a-z] wiree", ciphertext)
