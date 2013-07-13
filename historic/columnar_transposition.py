@@ -30,9 +30,7 @@ starting with the highest priority:
 c = "evln[a-z] acdt[a-z] esea[a-z] rofo[a-z] deec[a-z] wiree"
 '''
 
-import string
-import math
-import random
+import string, math, random, re
 
 def encrypt(message, keyword):
 	plaintext = _pad(_normalize(message), keyword)
@@ -44,14 +42,14 @@ def _weighted(keyword):
 	return [sorted(keyword).index(x) + 1 for x in keyword]
 
 def _normalize(message):
-	return b"".join([c for c in message if c in string.lowercase])
+	return re.sub("[^a-z]+", "", message)
 
 def _pad(message, keyword):
 	missing_bytes = len(keyword) - (len(message) % len(keyword))
 	if missing_bytes == len(keyword):
 		return message
 	else:
-		message += b"".join([string.lowercase[random.randint(0, 26)] for i in range(missing_bytes)])
+		message += b"".join([string.lowercase[random.randint(0, 25)] for i in range(missing_bytes)])
 	return message
 
 def _distribute_text_to_key_columns(message, key):

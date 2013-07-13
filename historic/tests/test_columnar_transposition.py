@@ -1,5 +1,5 @@
 from nose.tools import *
-from columnar_transposition import encrypt, _pad, _normalize, _distribute_text_to_key_columns, _weighted, _read_ciphertext_from
+from historic.columnar_transposition import encrypt, _pad, _normalize, _distribute_text_to_key_columns, _weighted, _read_ciphertext_from
 import re
 
 def test_should_strip_all_non_letter_characters_from_message():
