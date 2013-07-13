@@ -5,11 +5,12 @@ It is crucial to encrypt the resulting tag again using a different key.
 
 from crypto.utils import xor, get_blocks, mac_pad
 from Crypto.Cipher import AES
+from Base_Mac import Base_Mac
 
-class CBC_MAC(object):
-	def __init__(self, key1, key2):
-		self.cipher1 = AES.new(key1, AES.MODE_ECB)
-		self.cipher2 = AES.new(key2, AES.MODE_ECB)
+class CBC_MAC(Base_Mac):
+	def __init__(self, key):
+		self.cipher1 = AES.new(key[0], AES.MODE_ECB)
+		self.cipher2 = AES.new(key[1], AES.MODE_ECB)
 		self.BLOCK_SIZE = self.cipher1.block_size
 
 	def sign(self, message):
@@ -22,4 +23,4 @@ class CBC_MAC(object):
 		return self.cipher2.encrypt(tag)
 
 	def verify(self, message, tag):
-		return self.sign(message) == tag
+		return Base_Mac.verify(self, message, tag)

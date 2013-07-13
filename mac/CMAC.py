@@ -6,10 +6,11 @@ encrypting it with k.
 '''
 from crypto.utils import xor, get_blocks, mac_pad
 from Crypto.Cipher import AES
+from Base_Mac import Base_Mac
 
-class CMAC(object):
-	def __init__(self, keys):
-		self.k, self.k1, self.k2 = keys
+class CMAC(Base_Mac):
+	def __init__(self, key):
+		self.k, self.k1, self.k2 = key
 		self.cipher = AES.new(self.k, AES.MODE_ECB)
 		self.BLOCK_SIZE = self.cipher.block_size
 
@@ -27,4 +28,4 @@ class CMAC(object):
 		return self.cipher.encrypt(xor(last_block_key, xor(last_block, tag)))
 
 	def verify(self, message, tag):
-		return self.sign(message) == tag
+		return Base_Mac.verify(self, message, tag)
